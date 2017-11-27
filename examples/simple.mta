@@ -1,17 +1,17 @@
 var x : int = 5 ;
 
 
+object Starship = {
+    var points : int = 5 ;
+    var captain : str = "kirk" ;
+};
+
 object Starship : {
     var points = int ;
     var captain = str ;
 } = {
     var points = 5 ;
     var captain = "kirk" ;
-};
-
-object Starship = {
-    var points : int = 5 ;
-    var captain : str = "kirk" ;
 };
 
 struct Starship = {
@@ -25,16 +25,50 @@ struct Starship : {
 };
 
 
-def f = [var x] => x ;
+def f = {arg x; arg y} => x ;
 
-def f = [var x = 5] => x ;
+def f = {arg x = 5} => x ;
 
-def f = [var x : int] => x ;
+def f = {arg x : int} => x ;
 
-def f = [var x : int = 5] => x ;
+def f = {arg x : int = 5} => x ;
 
-def f : [var x = int] => int
-      = [var x] => x ;
+def f : {arg x = int} => int
+      = {arg x} => x ;
 
-def f : [var x = int] => int
-      = [var x : int] => x ;
+def f : {arg x = int} => int
+      = {arg x : int} => x ;
+
+value Point : {
+    var x: int;
+    var y: int;
+};
+
+class List : {
+    var node = Node;
+} => Iterable & Reversible;
+
+class Node : generic { arg T } => {
+    var tail = Optional(Node(T));
+} = {
+    var tail = null;
+}
+
+/*
+var p : (value { var x; var y }) (int, int)
+      = (value { var x; var y }) (0,   5  ) ;
+*/
+
+// similar to let-lambda transformation
+struct Starship {
+    var points;
+    var captain;
+}(5 : int, "kirk" : string)
+
+struct Starship : {
+    var points;
+    var captain;
+}(int, str) = {
+    var points;
+    var captain;
+}(5, "kirk")

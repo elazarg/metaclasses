@@ -2,20 +2,30 @@ grammar Meta;
 
 // n-level language: concrete and abstract
 prog
-    : (fullDecl ';')+ EOF
+    : body EOF
+    ;
+
+body: (fullDecl (';' fullDecl)*)
     ;
 
 fullDecl
     : metaName nameDef (':' exp)? ('=' exp)?
+    |
     ;
 
 exp
-    : '{' (fullDecl ';')* '}'  // declExpression - the special thing
+    : '{' body '}'  // declExpression
+    | '{' body '}' '=>' exp // lambda; abstractly this is "let"
+                            // solve: how this combines with generics
+                            // idea: class A : { arg T } => { body } = ...
+                            //       (but the scope of T is abstract only)
+                            // maybe the scoping is related to erasure.
+// boring stuff here:
     | name
-    | '[' fullDecl ']' '=>' exp
     | exp BINOP exp
     | UNOP exp
     | '(' exp ')'
+    | exp '(' (exp (',' exp)*)? ')'
     | exp '[' exp ']'
     | INT
     | STRING
@@ -29,8 +39,8 @@ nameDef : ID ;
 // LEXER
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
 INT: ([1-9][0-9]* | [0]) ;
-BINOP: '=' | '<' | '>' | '+' | '-' | '*' | '/' ;
-UNOP: '-' ;
+BINOP: '=' | '<' | '>' | '+' | '-' | '*' | '/' | '&' | '|' ;
+UNOP: '-' | '!' | '~' ;
 STRING: '"' .*? '"' ;
 BlockComment : '/*' .*? '*/' -> skip ;
 LineComment : '//' ~[\n]* -> skip ;
