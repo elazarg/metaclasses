@@ -15,8 +15,8 @@ fullDecl
 
 exp
     : '{' body '}'  // declExpression
-    | '{' body '}' '=>' exp // lambda; abstractly this is "let"
-                            // solve: how this combines with generics
+    | '{' body '}' '=>' exp // lambda; abstractly this is "let"?
+                            // how this combines with generics?
                             // idea: class A : { arg T } => { body } = ...
                             //       (but the scope of T is abstract only)
                             // maybe the scoping is related to erasure.
