@@ -1,0 +1,40 @@
+var x : int = 5 ;
+
+
+object Starship : {
+    var points = int ;
+    var captain = str ;
+} = {
+    var points = 5 ;
+    var captain = "kirk" ;
+};
+
+object Starship = {
+    var points : int = 5 ;
+    var captain : str = "kirk" ;
+};
+
+struct Starship = {
+    var points : int ;
+    var captain : str ;
+};
+// is the same as
+struct Starship : {
+    var points = int ;
+    var captain = str ;
+};
+
+
+def f = [var x] => x ;
+
+def f = [var x = 5] => x ;
+
+def f = [var x : int] => x ;
+
+def f = [var x : int = 5] => x ;
+
+def f : [var x = int] => int
+      = [var x] => x ;
+
+def f : [var x = int] => int
+      = [var x : int] => x ;
